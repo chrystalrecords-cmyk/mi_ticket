@@ -1,0 +1,13 @@
+[
+  {
+    "model": "eventos.evento",
+    "pk": 1,
+    "fields": {
+      "nombre": "Evento de Prueba (Fijo)",
+      "descripcion": "Este evento fue creado desde el codigo para pruebas.",
+      "fecha": "2026-12-31T20:00:00Z",
+      "precio": "100.00",
+      "activo": true
+    }
+  }
+]

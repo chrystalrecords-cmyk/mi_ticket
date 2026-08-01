@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ evento.nombre }} - MiTicket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">MiTicket</a>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <a href="/" class="btn btn-outline-secondary mb-3">&larr; Volver a la lista</a>
+
+        <div class="card shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    {% if evento.imagen %}
+                        <img src="{{ evento.imagen.url }}" class="img-fluid rounded-start w-100" style="object-fit: cover; max-height: 500px;" alt="{{ evento.nombre }}">
+                    {% else %}
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 100%; min-height: 300px;">
+                            Sin imagen disponible
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body p-4">
+                        <h2 class="card-title fw-bold mb-3">{{ evento.nombre }}</h2>
+                        <p class="card-text text-muted mb-3">{{ evento.descripcion }}</p>
+                        
+                        <p class="mb-1"><strong>📍 Lugar:</strong> {{ evento.lugar }}</p>
+                        <p class="mb-3"><strong>📅 Fecha:</strong> {{ evento.fecha|date:"d/m/Y H:i" }} hs</p>
+                        <h3 class="text-primary fw-bold mb-4">${{ evento.precio }}</h3>
+
+                        <hr>
+
+                        <h5 class="fw-bold mb-3">Comprar Entradas</h5>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cantidad" class="form-label">Cantidad de Entradas</label>
+                                <input type="number" class="form-control" id="cantidad" name="cantidad" value="1" min="1" max="10" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-lg w-100">Pagar con Mercado Pago</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
