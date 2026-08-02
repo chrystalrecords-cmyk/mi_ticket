@@ -9,9 +9,9 @@
       "precio": "100.00",
       "activo": true
     }
-  }
-]
-"model": "eventos.evento",
+  },
+  {
+    "model": "eventos.evento",
     "pk": 2,
     "fields": {
       "titulo": "Jay Aston's Gene Loves Jezebel - Show + Meet & Greet",
