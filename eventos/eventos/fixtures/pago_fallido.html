@@ -1,0 +1,9 @@
+{% extends 'eventos/base.html' %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <h2 class="text-danger">El pago no pudo ser procesado</h2>
+    <p>La transacción fue rechazada por la plataforma de pago o el emisor de la tarjeta.</p>
+    <a href="{% url 'lista_eventos' %}" class="btn btn-primary mt-3">Volver a los eventos</a>
+</div>
+{% endblock %}
