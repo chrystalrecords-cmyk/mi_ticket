@@ -10,7 +10,6 @@ def crear_evento_mg(apps, schema_editor):
             'fecha': "2026-11-07 21:00:00",
             'lugar': "Auditorio Beethoven (Av. Santa Fe 1452, Recoleta)",
             'precio': 180000.00,
-            'capacidad': 60,
         }
     )
 
