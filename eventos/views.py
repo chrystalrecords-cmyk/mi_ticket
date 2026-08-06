@@ -98,9 +98,10 @@ def pago_exitoso(request, orden_id):
     return render(request, 'eventos/pago_exitoso.html', {'orden': orden})
 
 def pago_fallido(request, orden_id):
-    orden = get_object_or_404(Orden, id=orden_id)
-    orden.estado_pago = 'RECHAZADO'
-    orden.save()
+    orden = Orden.objects.filter(id=orden_id).first()
+    if orden:
+        orden.estado_pago = 'RECHAZADO'
+        orden.save()
     return render(request, 'eventos/pago_fallido.html', {'orden': orden})
 
 def pago_pendiente(request, orden_id):
