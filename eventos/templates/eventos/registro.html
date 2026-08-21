@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Organizador - Mi Ticketera</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+    <div class="card p-4 shadow-sm" style="max-width: 450px; width: 100%;">
+        <h3 class="text-center mb-3 font-monospace fw-bold">Crear Cuenta de Productor</h3>
+        <p class="text-muted text-center small mb-4">Registrate para comenzar a administrar tus eventos y ventas.</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-text text-muted" style="font-size: 0.8rem;">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success w-100 mt-2">Registrarme</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <small>¿Ya tenés una cuenta? <a href="{% url 'login' %}">Iniciá sesión acá</a></small>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('input').forEach(input => {
+            if (input.type !== 'hidden') {
+                input.classList.add('form-control');
+            }
+        });
+    </script>
+</body>
+</html>
