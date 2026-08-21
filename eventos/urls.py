@@ -10,6 +10,6 @@ urlpatterns = [
     path('pago-fallido/<int:orden_id>/', views.pago_fallido, name='pago_fallido'),
     path('pago-pendiente/<int:orden_id>/', views.pago_pendiente, name='pago_pendiente'),
     path('panel/', views.dashboard_organizador, name='dashboard'),
-    path('login/', auth_views.LoginView.as_view(template_name='eventos/login.html', next_page='/panel/'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='eventos/login.html', redirect_authenticated_user=True), name='login'),
     path('registro/', views.registro_organizador, name='registro'),
 ]
