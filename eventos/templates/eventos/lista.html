@@ -8,12 +8,21 @@
 </head>
 <body class="bg-light">
 
-    <!-- Navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container">
-    <a class="navbar-brand fw-bold fs-4" href="{% url 'lista_eventos' %}">
-    <span class="text-primary">Mi</span><span class="text-light">Ticket</span>
-</a>    </div>
+   <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-3 rounded">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand fw-bold fs-4" href="{% url 'lista_eventos' %}">
+                <span class="text-primary">Mi</span><span class="text-light">Ticket</span>
+            </a>
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-sm me-2">Mi Panel de Productor</a>
+                    <a href="/admin/logout/" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Acceso Organizadores</a>
+                {% endif %}
+            </div>
+        </div>
     </nav>
 
     <div class="container">
