@@ -19,8 +19,12 @@
                 <label class="form-label">Contraseña</label>
                 <input type="password" name="password" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+           <button type="submit" class="btn btn-primary w-100">Ingresar</button>
         </form>
+
+        <div class="text-center mt-3">
+            <small class="text-muted">¿Sos productor y no tenés cuenta? <a href="{% url 'registro' %}">Registrate acá</a></small>
+        </div>
     </div>
 </body>
 </html>
