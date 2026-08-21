@@ -18,6 +18,16 @@
 
     <div class="container">
         <h1 class="text-center mb-4 text-primary font-monospace fw-bold">Eventos Disponibles</h1>
+        <!-- Buscador de eventos -->
+        <form method="GET" action="" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Buscar evento, artista o teatro..." value="{{ request.GET.q }}">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+                {% if request.GET.q %}
+                    <a href="{% url 'lista_eventos' %}" class="btn btn-outline-secondary">Limpiar</a>
+                {% endif %}
+            </div>
+        </form>
 
         <div class="row justify-content-center">
             {% for evento in eventos %}

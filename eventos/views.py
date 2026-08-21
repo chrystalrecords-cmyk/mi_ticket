@@ -3,14 +3,20 @@ import qrcode
 import io
 import base64
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 from .models import Evento, Orden
 
 MERCADOPAGO_ACCESS_TOKEN = "APP_USR-830626259037279-073016-c6b27d73bd0e4725b02c4628f0770d24-374749734"
 
 def lista_eventos(request):
-    eventos = Evento.objects.all()
+    query = request.GET.get('q')
+    if query:
+        eventos = Evento.objects.filter(
+            Q(nombre__icontains=query) | Q(lugar__icontains=query)
+        )
+    else:
+        eventos = Evento.objects.all()
     return render(request, 'eventos/lista.html', {'eventos': eventos})
-
 def detalle_evento(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
     
