@@ -124,17 +124,12 @@ from django.db.models import Sum
 
 @login_required
 def dashboard_organizador(request):
-    # Si es superusuario ve todo; si es organizador solo ve sus eventos
-    if request.user.is_superuser:
-        eventos = Evento.objects.all()
-        ordenes_pagadas = Orden.objects.filter(estado_pago='APROBADO')
-    else:
-        eventos = Evento.objects.filter(organizador=request.user)
-        ordenes_pagadas = Orden.objects.filter(evento__organizador=request.user, estado_pago='APROBADO')
-    
+    eventos = Evento.objects.all()
+    ordenes_pagadas = Orden.objects.filter(estado_pago='APROBADO')
+
     total_recaudado = ordenes_pagadas.aggregate(Sum('monto_total'))['monto_total__sum'] or 0
     total_entradas = ordenes_pagadas.aggregate(Sum('cantidad'))['cantidad__sum'] or 0
-    
+
     context = {
         'eventos': eventos,
         'ordenes': ordenes_pagadas,
