@@ -1,9 +1,9 @@
 from django.db import models
 
 class Evento(models.Model):
-    nombre = models.CharField(max_width=200)
+    nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
-    lugar = models.CharField(max_width=200)
+    lugar = models.CharField(max_length=200)
     fecha = models.DateTimeField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     imagen = models.ImageField(upload_to='flyers/', blank=True, null=True)
@@ -19,12 +19,12 @@ class Orden(models.Model):
     ]
 
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    nombre_comprador = models.CharField(max_width=100)
-    email_comprador = models.CharField(max_width=100)
+    nombre_comprador = models.CharField(max_length=100)
+    email_comprador = models.CharField(max_length=100)
     cantidad = models.PositiveIntegerField(default=1)
     monto_total = models.DecimalField(max_digits=10, decimal_places=2)
-    estado_pago = models.CharField(max_width=20, choices=ESTADOS_PAGO, default='PENDIENTE')
-    mercadopago_preference_id = models.CharField(max_width=200, blank=True, null=True)
+    estado_pago = models.CharField(max_length=20, choices=ESTADOS_PAGO, default='PENDIENTE')
+    mercadopago_preference_id = models.CharField(max_length=200, blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
