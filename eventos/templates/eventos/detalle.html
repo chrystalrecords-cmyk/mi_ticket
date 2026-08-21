@@ -53,6 +53,46 @@
                                 <label for="cantidad" class="form-label">Cantidad de Entradas</label>
                                 <input type="number" class="form-control" id="cantidad" name="cantidad" value="1" min="1" max="10" required>
                             </div>
+                            <!-- Checkbox de aceptación y enlace al Modal -->
+            <div class="form-check mb-3 text-start small">
+                <input class="form-check-input" type="checkbox" id="aceptoTerminos" required>
+                <label class="form-check-label text-muted" for="aceptoTerminos">
+                    Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerminos" class="text-decoration-underline">Términos, Condiciones y Políticas de Devolución</a>.
+                </label>
+            </div>
+
+            <!-- Ventana Modal Flotante -->
+            <div class="modal fade" id="modalTerminos" tabindex="-1" aria-labelledby="modalTerminosLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                    <div class="modal-content text-dark">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold" id="modalTerminosLabel">Términos, Condiciones y Políticas de Devolución</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start small text-secondary" style="line-height: 1.6;">
+                            
+                            <h6 class="fw-bold text-dark mb-2">1. Compra y Validez de las Entradas</h6>
+                            <p>Al adquirir un ticket a través de esta plataforma, el usuario declara ser mayor de edad o contar con la debida autorización legal. Cada entrada emitida incluye un código de identificación / QR único, el cual garantiza el acceso para una (1) sola persona en la fecha y hora indicadas. Es responsabilidad exclusiva del comprador resguardar su ticket y no compartir ni duplicar dicho código.</p>
+
+                            <h6 class="fw-bold text-dark mb-2">2. Políticas de Cancelación y Devolución</h6>
+                            <p>La devolución del importe pagado por las entradas procederá <strong>únicamente en caso de cancelación o suspensión definitiva del evento</strong> atribuible a la organización o al artista. La inasistencia del usuario por motivos personales o ajenos a la plataforma no generará derecho a reembolso, cambio ni canje por otros espectáculos.</p>
+
+                            <h6 class="fw-bold text-dark mb-2">3. Reprogramación de Eventos</h6>
+                            <p>En caso de cambio de fecha, horario o recinto por causas de fuerza mayor o decisiones organizativas, los tickets ya adquiridos mantendrán su validez para la nueva función. De no ser posible la asistencia a la fecha reprogramada, la organización informará los plazos y canales habilitados para solicitar el reembolso correspondiente.</p>
+
+                            <h6 class="fw-bold text-dark mb-2">4. Admisión y Permanencia</h6>
+                            <p>El establecimiento y la producción del evento se reservan el derecho de admisión y permanencia conforme a las leyes vigentes y el reglamento interno de cada recinto. No se permitirá el ingreso con elementos no autorizados ni bajo el efecto de sustancias prohibidas.</p>
+
+                            <h6 class="fw-bold text-dark mb-2">5. Soporte y Consultas</h6>
+                            <p>Ante cualquier duda o inconveniente relacionado con el procesamiento de tus entradas, podés ponerte en contacto directamente con nuestro equipo de atención escribiendo a <strong>soportemiticket@gmail.com</strong>.</p>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Entendido y Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                             <button type="submit" class="btn btn-success btn-lg w-100">Pagar con Mercado Pago</button>
                         </form>
