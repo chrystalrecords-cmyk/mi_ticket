@@ -5,6 +5,8 @@ import base64
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.db.models import Q, Sum
 from .models import Evento, Orden
 
@@ -140,3 +142,14 @@ def dashboard_organizador(request):
         'total_entradas': total_entradas,
     }
     return render(request, 'eventos/dashboard.html', context)
+
+def registro_organizador(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            login(request, usuario)
+            return redirect('dashboard')
+    else:
+        form = UserCreationForm()
+    return render(request, 'eventos/registro.html', {'form': form})

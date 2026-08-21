@@ -11,4 +11,5 @@ urlpatterns = [
     path('pago-pendiente/<int:orden_id>/', views.pago_pendiente, name='pago_pendiente'),
     path('panel/', views.dashboard_organizador, name='dashboard'),
     path('login/', auth_views.LoginView.as_view(template_name='eventos/login.html'), name='login'),
+    path('registro/', views.registro_organizador, name='registro'),
 ]
