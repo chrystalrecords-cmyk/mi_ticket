@@ -2,8 +2,10 @@ import mercadopago
 import qrcode
 import io
 import base64
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum
-from django.db.models import Q
 from .models import Evento, Orden
 
 MERCADOPAGO_ACCESS_TOKEN = "APP_USR-830626259037279-073016-c6b27d73bd0e4725b02c4628f0770d24-374749734"
