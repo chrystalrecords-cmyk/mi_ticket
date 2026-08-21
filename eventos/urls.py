@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.lista_eventos, name='lista_eventos'),
@@ -9,4 +10,5 @@ urlpatterns = [
     path('pago-fallido/<int:orden_id>/', views.pago_fallido, name='pago_fallido'),
     path('pago-pendiente/<int:orden_id>/', views.pago_pendiente, name='pago_pendiente'),
     path('panel/', views.dashboard_organizador, name='dashboard'),
+    path('login/', auth_views.LoginView.as_view(template_name='eventos/login.html'), name='login'),
 ]
