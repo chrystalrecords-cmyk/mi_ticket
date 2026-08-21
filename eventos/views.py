@@ -124,8 +124,12 @@ from django.db.models import Sum
 
 @login_required
 def dashboard_organizador(request):
-    eventos = Evento.objects.all()
-    ordenes_pagadas = Orden.objects.filter(estado_pago='APROBADO')
+    if request.user.is_superuser:
+        eventos = Evento.objects.all()
+        ordenes_pagadas = Orden.objects.filter(estado_pago='APROBADO')
+    else:
+        eventos = Evento.objects.filter(organizador=request.user)
+        ordenes_pagadas = Orden.objects.filter(evento__in=eventos, estado_pago='APROBADO')
 
     total_recaudado = ordenes_pagadas.aggregate(Sum('monto_total'))['monto_total__sum'] or 0
     total_entradas = ordenes_pagadas.aggregate(Sum('cantidad'))['cantidad__sum'] or 0
@@ -138,13 +142,19 @@ def dashboard_organizador(request):
     }
     return render(request, 'eventos/dashboard.html', context)
 
+
+class RegistroForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        fields = UserCreationForm.Meta.fields + ('email',)
+
+
 def registro_organizador(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroForm(request.POST)
         if form.is_valid():
             usuario = form.save()
             login(request, usuario)
             return redirect('dashboard')
     else:
-        form = UserCreationForm()
+        form = RegistroForm()
     return render(request, 'eventos/registro.html', {'form': form})
