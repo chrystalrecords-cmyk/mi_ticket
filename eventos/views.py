@@ -2,7 +2,7 @@ import mercadopago
 import qrcode
 import io
 import base64
-from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q, Sum
 from django.db.models import Q
 from .models import Evento, Orden
 
@@ -115,3 +115,26 @@ def pago_pendiente(request, orden_id):
     orden.estado_pago = 'PENDIENTE'
     orden.save()
     return render(request, 'eventos/pago_pendiente.html', {'orden': orden})
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+
+@login_required
+def dashboard_organizador(request):
+    # Si es superusuario ve todo; si es organizador solo ve sus eventos
+    if request.user.is_superuser:
+        eventos = Evento.objects.all()
+        ordenes_pagadas = Orden.objects.filter(estado_pago='APROBADO')
+    else:
+        eventos = Evento.objects.filter(organizador=request.user)
+        ordenes_pagadas = Orden.objects.filter(evento__organizador=request.user, estado_pago='APROBADO')
+    
+    total_recaudado = ordenes_pagadas.aggregate(Sum('monto_total'))['monto_total__sum'] or 0
+    total_entradas = ordenes_pagadas.aggregate(Sum('cantidad'))['cantidad__sum'] or 0
+    
+    context = {
+        'eventos': eventos,
+        'ordenes': ordenes_pagadas,
+        'total_recaudado': total_recaudado,
+        'total_entradas': total_entradas,
+    }
+    return render(request, 'eventos/dashboard.html', context)

@@ -8,4 +8,5 @@ urlpatterns = [
     path('pago-exitoso/<int:orden_id>/', views.pago_exitoso, name='pago_exitoso'),
     path('pago-fallido/<int:orden_id>/', views.pago_fallido, name='pago_fallido'),
     path('pago-pendiente/<int:orden_id>/', views.pago_pendiente, name='pago_pendiente'),
+    path('panel/', views.dashboard_organizador, name='dashboard'),
 ]
