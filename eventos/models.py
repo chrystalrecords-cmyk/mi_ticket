@@ -28,6 +28,7 @@ class Orden(models.Model):
     estado_pago = models.CharField(max_length=20, choices=ESTADOS_PAGO, default='PENDIENTE')
     mercadopago_preference_id = models.CharField(max_length=200, blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    usado = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Orden {self.id} - {self.evento.nombre} ({self.nombre_comprador})"

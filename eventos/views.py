@@ -158,3 +158,22 @@ def registro_organizador(request):
     else:
         form = RegistroForm()
     return render(request, 'eventos/registro.html', {'form': form})
+def validar_ticket(request, orden_id):
+    orden = get_object_or_404(Orden, id=orden_id)
+    
+    # Si la orden no está pagada
+    if orden.estado_pago != 'APROBADO':
+        estado = 'NO_PAGADO'
+    # Si ya fue usada antes
+    elif orden.usado:
+        estado = 'YA_USADO'
+    # Si es válida y es la primera vez que se escanea
+    else:
+        orden.usado = True
+        orden.save()
+        estado = 'EXITO'
+
+    return render(request, 'eventos/validar_ticket.html', {
+        'orden': orden,
+        'estado': estado
+    })
