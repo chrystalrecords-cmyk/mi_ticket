@@ -30,14 +30,22 @@
                     <h2 class="fw-bold mb-2">{{ evento.titulo }}</h2>
                     <p class="text-muted mb-3">{{ evento.descripcion }}</p>
                     
-                    <!-- Renderizado de Mapa según el campo de la Base de Datos -->
+                    <!-- Renderizado de Mapa según la variable del modelo -->
                     {% if evento.mapa_iframe %}
                         <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
                             {{ evento.mapa_iframe|safe }}
                         </div>
+                    {% elif evento.mapa_url %}
+                        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
+                            {{ evento.mapa_url|safe }}
+                        </div>
                     {% elif evento.ubicacion %}
                         <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
                             {{ evento.ubicacion|safe }}
+                        </div>
+                    {% elif evento.mapa_embed %}
+                        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
+                            {{ evento.mapa_embed|safe }}
                         </div>
                     {% elif evento.mapa %}
                         <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
