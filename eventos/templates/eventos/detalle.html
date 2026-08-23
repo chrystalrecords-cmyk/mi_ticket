@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ evento.titulo }} - Mi Ticketera</title>
+    <title>{{ evento.nombre }} - Mi Ticketera</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -21,35 +21,25 @@
         <div class="card shadow-sm p-4">
             <div class="row g-4">
                 
-                <!-- COLUMNA IZQUIERDA: Flyer, Info y Mapa -->
+                <!-- COLUMNA IZQUIERDA: Flyer, Info y Mapa de Google -->
                 <div class="col-md-6">
                     {% if evento.imagen %}
-                        <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="img-fluid rounded mb-3 w-100">
+                        <img src="{{ evento.imagen.url }}" alt="{{ evento.nombre }}" class="img-fluid rounded mb-3 w-100">
                     {% endif %}
 
-                    <h2 class="fw-bold mb-2">{{ evento.titulo }}</h2>
-                    <p class="text-muted mb-3">{{ evento.descripcion }}</p>
+                    <h2 class="fw-bold mb-2">{{ evento.nombre }}</h2>
+                    <p class="text-muted mb-2">{{ evento.descripcion }}</p>
+                    <p class="text-secondary fw-semibold mb-3">📍 {{ evento.lugar }}</p>
                     
-                    <!-- Renderizado de Mapa según la variable del modelo -->
-                    {% if evento.mapa_iframe %}
+                    <!-- Mapa de Google Maps embebido con la ubicación del evento -->
+                    {% if evento.lugar %}
                         <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
-                            {{ evento.mapa_iframe|safe }}
-                        </div>
-                    {% elif evento.mapa_url %}
-                        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
-                            {{ evento.mapa_url|safe }}
-                        </div>
-                    {% elif evento.ubicacion %}
-                        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
-                            {{ evento.ubicacion|safe }}
-                        </div>
-                    {% elif evento.mapa_embed %}
-                        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
-                            {{ evento.mapa_embed|safe }}
-                        </div>
-                    {% elif evento.mapa %}
-                        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm mb-3">
-                            {{ evento.mapa|safe }}
+                            <iframe 
+                                src="https://maps.google.com/maps?q={{ evento.lugar|urlencode }}&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy">
+                            </iframe>
                         </div>
                     {% endif %}
                 </div>
