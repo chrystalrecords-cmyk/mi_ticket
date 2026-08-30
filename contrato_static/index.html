@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aceptación de Términos y Condiciones - Mi Ticket</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; color: #333; }
+        .card { max-width: 600px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { font-size: 20px; color: #111; text-align: center; margin-top: 0; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; }
+        input[type="text"], input[type="email"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .terms-box { height: 180px; overflow-y: scroll; border: 1px solid #ddd; padding: 12px; font-size: 12px; line-height: 1.5; background: #fafafa; margin-top: 15px; border-radius: 4px; }
+        .checkbox-label { font-weight: normal; font-size: 13px; margin-top: 15px; display: flex; align-items: center; gap: 8px; }
+        .btn-submit { background-color: #28a745; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 4px; width: 100%; margin-top: 20px; cursor: pointer; }
+        .btn-submit:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Aceptación de Términos para Organizadores</h1>
+    
+    <form action="https://formspree.io/f/TU_FORM_ID" method="POST">
+        
+        <label>Nombre y Apellido / Razón Social</label>
+        <input type="text" name="organizador" required placeholder="Ej: Juan Pérez">
+
+        <label>Email de Contacto</label>
+        <input type="email" name="email" required placeholder="ejemplo@mail.com">
+
+        <label>Nombre del Evento</label>
+        <input type="text" name="evento" required placeholder="Ej: Recital de Rock">
+
+        <label>Términos y Condiciones del Servicio</label>
+        <div class="terms-box">
+            <p><strong>1. OBJETO Y ALCANCE:</strong> El presente acuerdo regula la relación entre la Plataforma y el Organizador del evento. La Plataforma actúa exclusivamente como prestador de servicios tecnológicos de boletaría y gestión de cobro.</p>
+            <p><strong>2. RESPONSABILIDAD DEL EVENTO:</strong> El Organizador declara ser el único responsable de la realización, producción, seguridad, capacidad del recinto y cumplimiento de la normativa legal aplicable. Asimismo, asume la responsabilidad por derechos de autor (SADAIC, AADI-CAPIF) y cargas impositivas.</p>
+            <p><strong>3. CANCELACIÓN O REPROGRAMACIÓN:</strong> En caso de suspensión o cancelación del evento, el Organizador es el único responsable frente a los compradores de la devolución del dinero. La Plataforma queda facultada para retener o congelar los fondos recaudados a fin de responder ante reclamos o contrargos.</p>
+            <p><strong>4. COMISIÓN Y LIQUIDACIÓN:</strong> La Plataforma percibirá el porcentaje por servicio acordado sobre cada entrada vendida. Las liquidaciones se realizarán a la cuenta informada a los 5 (cinco) dias posteriores a la finalizacion del evento.</p>
+        </div>
+
+        <label class="checkbox-label">
+            <input type="checkbox" name="acepta_terminos" value="SI" required>
+            Declaro que he leído y acepto los términos y condiciones de contratación.
+        </label>
+
+        <button type="submit" class="btn-submit">Aceptar y Confirmar</button>
+    </form>
+</div>
+
+</body>
+</html>
