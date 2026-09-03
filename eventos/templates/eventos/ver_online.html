@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>{{ evento.nombre }}</h2>
+            <p class="text-muted">Transmisión Exclusiva / Contenido Online</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <div class="ratio ratio-16x9 shadow rounded overflow-hidden bg-dark">
+                {% if evento.link_video %}
+                    <iframe src="{{ evento.link_video }}" title="{{ evento.nombre }}" allowfullscreen></iframe>
+                {% else %}
+                    <div class="text-white text-center p-5 d-flex flex-column justify-content-center align-items-center">
+                        <h4>El link del video aún no está disponible.</h4>
+                        <p>Por favor, volvé más tarde cerca del horario de inicio.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'lista_eventos' %}" class="btn btn-secondary">Volver al Inicio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -177,3 +177,19 @@ def validar_ticket(request, orden_id):
         'orden': orden,
         'estado': estado
     })
+@login_required
+def ver_evento_online(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+    
+    # Verificamos si tiene una orden aprobada para este evento
+    tiene_entrada = Orden.objects.filter(
+        evento=evento, 
+        email_comprador=request.user.email, 
+        estado_pago='APROBADO'
+    ).exists()
+    
+    # Si es staff o compró entrada, lo dejamos ver el stream/película
+    if request.user.is_staff or tiene_entrada:
+        return render(request, 'eventos/ver_online.html', {'evento': evento})
+    else:
+        return render(request, 'eventos/acceso_denegado.html', {'evento': evento})
