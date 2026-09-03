@@ -14,4 +14,5 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='eventos/login.html', redirect_authenticated_user=True), name='login'),
     path('registro/', views.registro_organizador, name='registro'),
     path('evento/<int:evento_id>/ver/', views.ver_evento_online, name='ver_evento_online'),
+    path('store/', views.store_view, name='store'),
 ]

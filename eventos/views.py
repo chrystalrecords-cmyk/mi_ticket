@@ -208,3 +208,7 @@ def ver_evento_online(request, evento_id):
 
     # Si es On Demand o ya es la hora de la función, mostramos el reproductor
     return render(request, 'eventos/ver_online.html', {'evento': evento})
+
+
+def store_view(request):
+    return render(request, 'eventos/store.html')
