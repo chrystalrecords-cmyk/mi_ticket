@@ -9,6 +9,12 @@ class Evento(models.Model):
     fecha = models.DateTimeField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     imagen = models.ImageField(upload_to='flyers/', blank=True, null=True)
+    link_video = models.URLField(max_length=500, blank=True, null=True, help_text="Link embed de YouTube o Vimeo")
+    TIPO_CONTENIDO = (
+        ('stream', 'Stream en Vivo'),
+        ('pelicula', 'Película'),
+    )
+    tipo_contenido = models.CharField(max_length=10, choices=TIPO_CONTENIDO, default='pelicula')
 
     def __str__(self):
         return self.nombre
