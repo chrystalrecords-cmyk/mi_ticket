@@ -181,15 +181,30 @@ def validar_ticket(request, orden_id):
 def ver_evento_online(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
     
-    # Verificamos si tiene una orden aprobada para este evento
+    # 1. Verificamos si tiene una orden aprobada para este evento
     tiene_entrada = Orden.objects.filter(
         evento=evento, 
         email_comprador=request.user.email, 
         estado_pago='APROBADO'
     ).exists()
     
-    # Si es staff o compró entrada, lo dejamos ver el stream/película
-    if request.user.is_staff or tiene_entrada:
-        return render(request, 'eventos/ver_online.html', {'evento': evento})
-    else:
+    # Si no es staff ni compró entrada, acceso denegado
+    if not (request.user.is_staff or tiene_entrada):
         return render(request, 'eventos/acceso_denegado.html', {'evento': evento})
+    
+    # 2. Si el evento es una "Función Programada", validamos el horario
+    if getattr(evento, 'modo_acceso', 'ON_DEMAND') == 'FUNCION':
+        ahora = timezone.now()
+        if evento.fecha and evento.hora:
+            fecha_hora_evento = datetime.combine(evento.fecha, evento.hora)
+            fecha_hora_evento = timezone.make_aware(fecha_hora_evento) if timezone.is_naive(fecha_hora_evento) else fecha_hora_evento
+
+            # Si todavía no llegó la hora de la función, mostramos pantalla de espera
+            if ahora < fecha_hora_evento:
+                return render(request, 'eventos/funcion_futura.html', {
+                    'evento': evento, 
+                    'fecha_hora_evento': fecha_hora_evento
+                })
+
+    # Si es On Demand o ya es la hora de la función, mostramos el reproductor
+    return render(request, 'eventos/ver_online.html', {'evento': evento})
