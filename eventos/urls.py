@@ -15,4 +15,6 @@ urlpatterns = [
     path('registro/', views.registro_organizador, name='registro'),
     path('evento/<int:evento_id>/ver/', views.ver_evento_online, name='ver_evento_online'),
     path('store/', views.store_view, name='store'),
+    path('tienda/exito/', views.tienda_exito, name='tienda_exito'),
+    path('tienda/fallo/', views.tienda_fallo, name='tienda_fallo'),
 ]

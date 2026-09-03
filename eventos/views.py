@@ -213,7 +213,6 @@ def ver_evento_online(request, evento_id):
 def store_view(request):
     productos = Producto.objects.all()
     
-    # Inicializamos Mercado Pago con tu token
     sdk = mercadopago.SDK(MERCADOPAGO_ACCESS_TOKEN)
     
     productos_con_pago = []
@@ -227,9 +226,9 @@ def store_view(request):
                 }
             ],
             "back_urls": {
-                "success": request.build_absolute_uri('/pago-exitoso/'),
-                "failure": request.build_absolute_uri('/pago-fallido/'),
-                "pending": request.build_absolute_uri('/pago-exitoso/')
+                "success": request.build_absolute_uri('/tienda/exito/'),
+                "failure": request.build_absolute_uri('/tienda/fallo/'),
+                "pending": request.build_absolute_uri('/tienda/exito/')
             },
             "auto_return": "approved",
         }
@@ -243,3 +242,9 @@ def store_view(request):
         })
 
     return render(request, 'eventos/store.html', {'productos_con_pago': productos_con_pago})
+
+def tienda_exito(request):
+    return render(request, 'eventos/pago_exitoso.html')
+
+def tienda_fallo(request):
+    return render(request, 'eventos/pago_fallido.html')
