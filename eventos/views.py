@@ -212,4 +212,34 @@ def ver_evento_online(request, evento_id):
 
 def store_view(request):
     productos = Producto.objects.all()
-    return render(request, 'eventos/store.html', {'productos': productos})
+    
+    # Inicializamos Mercado Pago con tu token
+    sdk = mercadopago.SDK(MERCADOPAGO_ACCESS_TOKEN)
+    
+    productos_con_pago = []
+    for producto in productos:
+        preference_data = {
+            "items": [
+                {
+                    "title": producto.nombre,
+                    "quantity": 1,
+                    "unit_price": float(producto.precio)
+                }
+            ],
+            "back_urls": {
+                "success": request.build_absolute_uri('/pago-exitoso/'),
+                "failure": request.build_absolute_uri('/pago-fallido/'),
+                "pending": request.build_absolute_uri('/pago-exitoso/')
+            },
+            "auto_return": "approved",
+        }
+        
+        preference_response = sdk.preference().create(preference_data)
+        preference = preference_response["response"]
+        
+        productos_con_pago.append({
+            'producto': producto,
+            'init_point': preference.get('init_point')
+        })
+
+    return render(request, 'eventos/store.html', {'productos_con_pago': productos_con_pago})

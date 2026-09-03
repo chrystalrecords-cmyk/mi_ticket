@@ -1,15 +1,33 @@
-<div class="row">
-            {% for producto in productos %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - Mi Ticketera</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white">
+
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="text-center mb-4 text-primary font-monospace fw-bold">Mi Ticket Store</h1>
+            <p class="text-muted">Llevate el merchandising oficial y los mejores recuerdos de tus eventos.</p>
+        </div>
+        
+        <div class="row">
+            {% for item in productos_con_pago %}
             <div class="col-md-4 mb-4">
                 <div class="card bg-dark text-white h-100 border-secondary shadow">
-                    {% if producto.imagen %}
-                        <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 250px; object-fit: cover;">
+                    {% if item.producto.imagen %}
+                        <img src="{{ item.producto.imagen.url }}" class="card-img-top" alt="{{ item.producto.nombre }}" style="height: 250px; object-fit: cover;">
                     {% endif %}
                     <div class="card-body d-flex flex-column text-center">
-                        <h5 class="card-title text-warning">{{ producto.nombre }}</h5>
-                        <p class="card-text text-muted flex-grow-1">{{ producto.descripcion }}</p>
-                        <p class="fw-bold fs-5 text-success">$ {{ producto.precio }}</p>
-                        <a href="#" class="btn btn-primary mt-auto">Comprar / Reservar</a>
+                        <h5 class="card-title text-warning">{{ item.producto.nombre }}</h5>
+                        <p class="card-text text-muted flex-grow-1">{{ item.producto.descripcion }}</p>
+                        <p class="fw-bold fs-5 text-success">$ {{ item.producto.precio }}</p>
+                        <!-- Botón conectado directamente al link de pago dinámico de Mercado Pago -->
+                        <a href="{{ item.init_point }}" class="btn btn-primary mt-auto">Comprar con Mercado Pago</a>
                     </div>
                 </div>
             </div>
@@ -19,3 +37,7 @@
             </div>
             {% endfor %}
         </div>
+    </div>
+
+</body>
+</html>
