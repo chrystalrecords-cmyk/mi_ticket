@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.db.models import Q, Sum
-from .models import Evento, Orden
+from .models import Evento, Orden, Producto
 
 MERCADOPAGO_ACCESS_TOKEN = "APP_USR-830626259037279-073016-c6b27d73bd0e4725b02c4628f0770d24-374749734"
 
@@ -211,4 +211,5 @@ def ver_evento_online(request, evento_id):
 
 
 def store_view(request):
-    return render(request, 'eventos/store.html')
+    productos = Producto.objects.all()
+    return render(request, 'eventos/store.html', {'productos': productos})
