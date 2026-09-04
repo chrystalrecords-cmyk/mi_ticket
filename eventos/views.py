@@ -248,14 +248,16 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 def tienda_exito(request):
+    print("--- ENTRÓ A TIENDA_EXITO ---")
     ultima_orden = None
     if request.user.is_authenticated:
         # Buscamos la última orden aprobada del usuario
         ultima_orden = Orden.objects.filter(user=request.user, estado_pago='APROBADO').order_by('-id').first()
-        
+
         if ultima_orden and ultima_orden.evento:
             modo = getattr(ultima_orden.evento, 'modo_acceso', 'PRESENCIAL')
-            
+            print(f"--- MODO DETECTADO: {modo} ---")
+
             # ENVIAR EMAIL SI ES DIGITAL (On Demand o Función)
             if modo in ['ON DEMAND', 'FUNCION'] and ultima_orden.evento.link_video:
                 # Verificamos si podemos usar el mail del usuario de Django o de la orden
@@ -263,25 +265,27 @@ def tienda_exito(request):
                 if email_destino:
                     asunto = f"¡Acceso a tu contenido: {ultima_orden.evento.nombre}!"
                     mensaje = f"""
-                    Hola {request.user.username},
-                    
-                    ¡Gracias por tu compra! Tu pago fue aprobado con éxito.
-                    
-                    Ya podés disfrutar de tu contenido ingresando al siguiente link de acceso:
-                    {ultima_orden.evento.link_video}
-                    
-                    ¡Que lo disfrutes!
-                    """
-        try:
-                send_mail(
-                    asunto,
-                    mensaje,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [email_destino],
-                    fail_silently=False,
-                )
-        except Exception as e:
-                print(f"ERROR ENVIANDO EMAIL: {e}")           
+Hola {request.user.username},
+
+¡Gracias por tu compra! Tu pago fue aprobado con éxito.
+
+Ya podés disfrutar de tu contenido ingresando al siguiente link de acceso:
+{ultima_orden.evento.link_video}
+
+¡Que lo disfrutes!
+"""
+                    try:
+                        print(f"--- INTENTANDO ENVIAR MAIL A: {email_destino} ---")
+                        send_mail(
+                            asunto,
+                            mensaje,
+                            settings.DEFAULT_FROM_EMAIL,
+                            [email_destino],
+                            fail_silently=False,
+                        )
+                        print("--- MAIL ENVIADO EXITOSAMENTE ---")
+                    except Exception as e:
+                        print(f"ERROR ENVIANDO EMAIL: {e}")        
             # SI ES PRESENCIAL: Muestra la pantalla de éxito común con el QR físico
                 if modo == 'PRESENCIAL':
                  return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
