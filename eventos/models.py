@@ -13,6 +13,7 @@ class Evento(models.Model):
     TIPO_CONTENIDO = (
         ('stream', 'Stream en Vivo'),
         ('pelicula', 'Película'),
+        ('show', 'Show / Concierto en Vivo'),
     )
     tipo_contenido = models.CharField(max_length=10, choices=TIPO_CONTENIDO, default='pelicula')
     MODO_ACCESO = (
