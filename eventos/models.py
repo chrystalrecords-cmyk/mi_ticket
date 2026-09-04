@@ -16,11 +16,10 @@ class Evento(models.Model):
     )
     tipo_contenido = models.CharField(max_length=10, choices=TIPO_CONTENIDO, default='pelicula')
     MODO_ACCESO = [
-        ('ON_DEMAND', 'On Demand (Disponible siempre)'),
-        ('FUNCION', 'Función Programada (Fecha y hora fija)'),
-    ]
-    modo_acceso = models.CharField(max_length=20, choices=MODO_ACCESO, default='ON_DEMAND')
-
+    ('PRESENCIAL', 'Presencial (con QR en puerta)'),
+    ('ON_DEMAND', 'On Demand (Disponible siempre)'),
+    ('FUNCION', 'Función Programada (Fecha y hora fija)'),
+]
     def __str__(self):
         return self.nombre
 
