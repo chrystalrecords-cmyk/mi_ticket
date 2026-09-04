@@ -254,3 +254,5 @@ def tienda_exito(request):
         ultima_orden = Orden.objects.filter(user=request.user, estado_pago__iexact='APROBADO').order_by('-id').first()
 
     return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
+def tienda_fallo(request, orden_id=None):
+    return render(request, 'eventos/pago_fallido.html', {'orden_id': orden_id})
