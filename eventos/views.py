@@ -247,12 +247,17 @@ def store_view(request):
 from django.core.mail import send_mail
 from django.conf import settings
 
-def tienda_exito(request):
+def tienda_exito(request, orden_id=None):
     ultima_orden = None
-    if request.user.is_authenticated:
-        # Buscamos la última orden aprobada del usuario
+    if orden_id:
+        # Buscamos la orden específica que devuelve Mercado Pago
+        ultima_orden = Orden.objects.filter(id=orden_id, estado_pago__iexact='APROBADO').first()
+    
+    # Si no viene el ID, recurrimos a la última del usuario autenticado
+    if not ultima_orden and request.user.is_authenticated:
         ultima_orden = Orden.objects.filter(user=request.user, estado_pago__iexact='APROBADO').order_by('-id').first()
 
     return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
+
 def tienda_fallo(request, orden_id=None):
     return render(request, 'eventos/pago_fallido.html', {'orden_id': orden_id})
