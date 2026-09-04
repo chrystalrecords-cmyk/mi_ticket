@@ -244,6 +244,9 @@ def store_view(request):
 
     return render(request, 'eventos/store.html', {'productos_con_pago': productos_con_pago})
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 def tienda_exito(request):
     ultima_orden = None
     if request.user.is_authenticated:
@@ -253,14 +256,41 @@ def tienda_exito(request):
         if ultima_orden and ultima_orden.evento:
             modo = getattr(ultima_orden.evento, 'modo_acceso', 'PRESENCIAL')
             
+            # ENVIAR EMAIL SI ES DIGITAL (On Demand o Función)
+            if modo in ['ON DEMAND', 'FUNCION'] and ultima_orden.evento.link_video:
+                # Verificamos si podemos usar el mail del usuario de Django o de la orden
+                email_destino = getattr(request.user, 'email', None)
+                if email_destino:
+                    asunto = f"¡Acceso a tu contenido: {ultima_orden.evento.nombre}!"
+                    mensaje = f"""
+                    Hola {request.user.username},
+                    
+                    ¡Gracias por tu compra! Tu pago fue aprobado con éxito.
+                    
+                    Ya podés disfrutar de tu contenido ingresando al siguiente link de acceso:
+                    {ultima_orden.evento.link_video}
+                    
+                    ¡Que lo disfrutes!
+                    """
+                    try:
+                        send_mail(
+                            asunto,
+                            mensaje,
+                            settings.DEFAULT_FROM_EMAIL,
+                            [email_destino],
+                            fail_silently=True,
+                        )
+                    except Exception:
+                        pass
+
             # SI ES PRESENCIAL: Muestra la pantalla de éxito común con el QR físico
             if modo == 'PRESENCIAL':
                 return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
             
-            # SI ES STREAMING (On Demand o Función): Lo manda directo al reproductor
-            if modo in ['ON_DEMAND', 'FUNCION']:
+            # SI ES STREAMING (On Demand o Función): lo manda directo al reproductor
+            if modo in ['ON DEMAND', 'FUNCION']:
                 return redirect('ver_evento_online', evento_id=ultima_orden.evento.id)
-
+                
     # Por seguridad, si no hay sesión, muestra la pantalla común
     return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
 def tienda_fallo(request):
