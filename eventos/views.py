@@ -251,9 +251,8 @@ def tienda_exito(request):
     print("--- ENTRÓ A TIENDA_EXITO ---")
     ultima_orden = None
     if request.user.is_authenticated:
-        # Buscamos la última orden aprobada del usuario
-        ultima_orden = Orden.objects.filter(user=request.user, estado_pago='APROBADO').order_by('-id').first()
-
+       # Buscamos la última orden aprobada del usuario sin importar mayúsculas/minúsculas
+        ultima_orden = Orden.objects.filter(user=request.user, estado_pago__iexact='APROBADO').order_by('-id').first()
         if ultima_orden and ultima_orden.evento:
             modo = getattr(ultima_orden.evento, 'modo_acceso', 'PRESENCIAL')
             print(f"--- MODO DETECTADO: {modo} ---")
