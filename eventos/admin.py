@@ -3,7 +3,7 @@ from .models import Evento, Orden, Producto
 
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'fecha', 'lugar', 'precio')
+    list_display = ('nombre', 'fecha', 'lugar', 'precio', 'modo_acceso')
 
 @admin.register(Orden)
 class OrdenAdmin(admin.ModelAdmin):
