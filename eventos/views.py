@@ -272,24 +272,23 @@ def tienda_exito(request):
                     
                     ¡Que lo disfrutes!
                     """
-                    try:
-                        send_mail(
-                            asunto,
-                            mensaje,
-                            settings.DEFAULT_FROM_EMAIL,
-                            [email_destino],
-                            fail_silently=True,
-                        )
-                    except Exception:
-                        pass
-
+        try:
+                send_mail(
+                    asunto,
+                    mensaje,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [email_destino],
+                    fail_silently=False,
+                )
+        except Exception as e:
+                print(f"ERROR ENVIANDO EMAIL: {e}")           
             # SI ES PRESENCIAL: Muestra la pantalla de éxito común con el QR físico
-            if modo == 'PRESENCIAL':
-                return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
+                if modo == 'PRESENCIAL':
+                 return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
             
             # SI ES STREAMING (On Demand o Función): lo manda directo al reproductor
-            if modo in ['ON DEMAND', 'FUNCION']:
-                return redirect('ver_evento_online', evento_id=ultima_orden.evento.id)
+                if modo in ['ON DEMAND', 'FUNCION']:
+                 return redirect('ver_evento_online', evento_id=ultima_orden.evento.id)
                 
     # Por seguridad, si no hay sesión, muestra la pantalla común
     return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
