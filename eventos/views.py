@@ -183,9 +183,10 @@ def ver_evento_online(request, evento_id):
     
     # 1. Verificamos si tiene una orden aprobada para este evento
     tiene_entrada = Orden.objects.filter(
-        evento=evento, 
-        email_comprador=request.user.email, 
+        evento=evento,
         estado_pago='APROBADO'
+    ).filter(
+        models.Q(email_comprador=request.user.email) | models.Q(user=request.user)
     ).exists()
     
     # Si no es staff ni compró entrada, acceso denegado
