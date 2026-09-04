@@ -15,7 +15,7 @@
             <small class="text-muted">Gracias por tu compra, <strong>{{ request.user.username }}</strong></small>
         </div>
 
-        {% if orden.evento and orden.evento.modo_acceso in 'ON DEMAND,FUNCION' %}
+        {% if orden.evento and orden.evento.modo_acceso in 'ON_DEMAND,FUNCION' %}
             <div class="alert alert-info text-center my-3">
                 <h4 class="alert-heading">Tu contenido digital está listo</h4>
                 <p class="mb-1">Modo de acceso: <strong>{{ orden.evento.modo_acceso }}</strong></p>
