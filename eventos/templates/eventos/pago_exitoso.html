@@ -23,15 +23,15 @@
             </div>
 
             {% if orden.evento.link_video %}
-                <div class="d-grid gap-2 my-3">
-                    <a href="{{ orden.evento.link_video }}" target="_blank" class="btn btn-primary btn-lg fw-bold">
-                        🎬 Ver Contenido Ahora
-                    </a>
-                </div>
-                <p class="text-muted small text-center">También guardate este link o tu número de orden por cualquier consulta.</p>
-            {% else %}
-                <p class="text-warning text-center">El enlace del video se habilitará en breve. ¡Estate atento!</p>
-            {% endif %}
+    <div class="d-grid gap-2 my-3">
+        <a href="{% url 'ver_online' orden.id %}" class="btn btn-primary btn-lg fw-bold">
+            🎬 Ver Contenido Exclusivo
+        </a>
+    </div>
+    <p class="text-muted small text-center">¡Disfrutá tu contenido directamente desde nuestra plataforma!</p>
+{% else %}
+    <p class="text-warning text-center">El enlace del video se habilitará en breve.</p>
+{% endif %}
         {% else %}
             <!-- Si es presencial o general -->
             <div class="text-center my-3">

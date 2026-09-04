@@ -1,33 +1,30 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor - MiTicket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light d-flex flex-column align-items-center justify-content-center min-vh-100 p-4">
 
-{% block content %}
-<div class="container my-5">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h2>{{ evento.nombre }}</h2>
-            <p class="text-muted">Transmisión Exclusiva / Contenido Online</p>
+    <div class="container" style="max-width: 800px;">
+        
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">{{ orden.evento.nombre }}</h2>
+            <p class="text-muted">Orden #{{ orden.id }} | Acceso Exclusivo</p>
         </div>
+
+        <!-- Reproductor de video profesional incrustado -->
+        <div class="ratio ratio-16x9 shadow-lg rounded-4 overflow-hidden mb-4 bg-black">
+            <iframe src="{{ orden.evento.link_video }}" title="Contenido en Directo" allowfullscreen></iframe>
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'lista_eventos' %}" class="btn btn-outline-secondary fw-bold px-4">Volver al Inicio</a>
+        </div>
+
     </div>
 
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-10">
-            <div class="ratio ratio-16x9 shadow rounded overflow-hidden bg-dark">
-                {% if evento.link_video %}
-                    <iframe src="{{ evento.link_video }}" title="{{ evento.nombre }}" allowfullscreen></iframe>
-                {% else %}
-                    <div class="text-white text-center p-5 d-flex flex-column justify-content-center align-items-center">
-                        <h4>El link del video aún no está disponible.</h4>
-                        <p>Por favor, volvé más tarde cerca del horario de inicio.</p>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-4">
-        <div class="col-12 text-center">
-            <a href="{% url 'lista_eventos' %}" class="btn btn-secondary">Volver al Inicio</a>
-        </div>
-    </div>
-</div>
-{% endblock %}
+</body>
+</html>

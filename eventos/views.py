@@ -261,3 +261,6 @@ def tienda_exito(request, orden_id=None):
 
 def tienda_fallo(request, orden_id=None):
     return render(request, 'eventos/pago_fallido.html', {'orden_id': orden_id})
+def ver_online(request, orden_id):
+    orden = get_object_or_404(Orden, id=orden_id)
+    return render(request, 'eventos/ver_online.html', {'orden': orden})

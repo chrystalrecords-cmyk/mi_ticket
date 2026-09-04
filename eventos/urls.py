@@ -17,4 +17,5 @@ urlpatterns = [
     path('store/', views.store_view, name='store'),
     path('tienda/exito/', views.tienda_exito, name='tienda_exito'),
     path('tienda/fallo/', views.tienda_fallo, name='tienda_fallo'),
+    path('ver-online/<int:orden_id>/', views.ver_online, name='ver_online'),
 ]
