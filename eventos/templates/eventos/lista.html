@@ -97,5 +97,17 @@
   <footer class="text-center py-4 mt-5 bg-light border-top">
     <p class="mb-0 text-muted">© 2026 Mi Ticket. Todos los derechos reservados. | ¿Consultas o soporte? Escribinos a: <a href="mailto:soportemiticket@gmail.com" class="fw-bold text-decoration-none">soportemiticket@gmail.com</a></p>
 </footer>
+<!-- Script de inicialización del carrusel -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var myCarousel = document.querySelector('#miCarruselPromos');
+            if (myCarousel) {
+                var carousel = new bootstrap.Carousel(myCarousel, {
+                    interval: 4000,
+                    ride: 'carousel'
+                });
+            }
+        });
+    </script>
 </body>
 </html>
