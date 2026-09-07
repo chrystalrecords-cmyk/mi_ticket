@@ -53,3 +53,14 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
+    from django.db import models
+
+class BannerPromocional(models.Model):
+    titulo = models.CharField(max_length=100, verbose_name="Título del Banner")
+    imagen = models.ImageField(upload_to='banners/', verbose_name="Imagen del Banner")
+    enlace = models.URLField(blank=True, null=True, verbose_name="Enlace (opcional)")
+    activo = models.BooleanField(default=True, verbose_name="¿Mostrar en la página?")
+    orden = models.PositiveIntegerField(default=0, verbose_name="Orden de aparición")
+
+    def __str__(self):
+        return self.titulo

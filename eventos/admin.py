@@ -13,3 +13,11 @@ class OrdenAdmin(admin.ModelAdmin):
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'precio')
+    from django.contrib import admin
+from .models import BannerPromocional
+
+@admin.register(BannerPromocional)
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'activo', 'orden')
+    list_editable = ('activo', 'orden')
+    search_fields = ('titulo',)

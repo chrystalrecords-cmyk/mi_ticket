@@ -264,3 +264,15 @@ def tienda_fallo(request, orden_id=None):
 def ver_online(request, orden_id):
     orden = get_object_or_404(Orden, id=orden_id)
     return render(request, 'eventos/ver_online.html', {'orden': orden})
+from django.shortcuts import render
+from .models import BannerPromocional, Evento  # (mantené los modelos que ya tengas importados)
+
+def index_view(request):
+    # Traemos los banners activos ordenados por el campo 'orden'
+    banners = BannerPromocional.objects.filter(activo=True).order_by('orden')
+    
+    # (Acá traes los eventos u otras cosas que ya tenga tu vista principal)
+    context = {
+        'banners_activos': banners,
+    }
+    return render(request, 'index.html', context)
