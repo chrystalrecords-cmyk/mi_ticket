@@ -27,10 +27,6 @@
             </div>
         </div>
     </nav>
-<!-- LÍNEA DE DIAGNÓSTICO VISIBLE -->
-<div class="alert alert-info text-center my-2">
-    <strong>Cantidad de banners detectados por Django:</strong> {{ banners_activos|length }}
-</div>
 
 <div id="miCarruselPromos" class="carousel slide my-4 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -44,11 +40,7 @@
                     <img src="{{ banner.imagen.url }}" class="d-block w-100" alt="{{ banner.titulo }}" style="max-height: 400px; object-fit: cover;">
                 {% endif %}
             </div>
-        {% empty %}
-            <div class="carousel-item active bg-dark text-white text-center py-4">
-                <h5>[DIAGNÓSTICO]: La variable banners_activos está vacía en la base de datos</h5>
-            </div>
-        {% endfor %}
+        
     </div>
     
     <!-- Botones de navegación lateral -->
