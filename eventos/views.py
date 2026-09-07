@@ -275,4 +275,4 @@ def index_view(request):
     context = {
         'banners_activos': banners,
     }
-    return render(request, 'index.html', context)
+    return render(request, 'eventos/lista.html', context)
