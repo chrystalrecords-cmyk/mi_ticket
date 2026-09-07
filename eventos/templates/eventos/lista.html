@@ -27,10 +27,8 @@
             </div>
         </div>
     </nav>
-    {% if banners_activos %}
 <div id="miCarruselPromos" class="carousel slide my-4 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
     <div class="carousel-inner">
-        {% for banner in banners_activos %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                 {% if banner.enlace %}
                     <a href="{{ banner.enlace }}" target="_blank">
@@ -40,7 +38,6 @@
                 
                 {% if banner.enlace %}
                     </a>
-                {% endif %}
             </div>
         {% endfor %}
     </div>
@@ -55,7 +52,6 @@
         <span class="visually-hidden">Siguiente</span>
     </button>
 </div>
-{% endif %}
 
     <div class="container">
         <h1 class="text-center mb-4 text-primary font-monospace fw-bold">Eventos Disponibles</h1>
