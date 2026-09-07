@@ -27,6 +27,11 @@
             </div>
         </div>
     </nav>
+<!-- LÍNEA DE DIAGNÓSTICO VISIBLE -->
+<div class="alert alert-info text-center my-2">
+    <strong>Cantidad de banners detectados por Django:</strong> {{ banners_activos|length }}
+</div>
+
 <div id="miCarruselPromos" class="carousel slide my-4 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
     <div class="carousel-inner">
         {% for banner in banners_activos %}
@@ -41,21 +46,10 @@
             </div>
         {% empty %}
             <div class="carousel-item active bg-dark text-white text-center py-4">
-                <h5>[DIAGNÓSTICO]: La variable banners_activos está vacía o no hay banners activos en Supabase</h5>
+                <h5>[DIAGNÓSTICO]: La variable banners_activos está vacía en la base de datos</h5>
             </div>
         {% endfor %}
     </div>
-    
-    <!-- Botones de navegación lateral -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#miCarruselPromos" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#miCarruselPromos" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
-    </button>
-</div>
     
     <!-- Botones de navegación lateral -->
     <button class="carousel-control-prev" type="button" data-bs-target="#miCarruselPromos" data-bs-slide="prev">

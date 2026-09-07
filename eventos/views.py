@@ -268,10 +268,18 @@ from django.shortcuts import render
 from .models import BannerPromocional, Evento  # (mantené los modelos que ya tengas importados)
 
 def index_view(request):
+    # Buscamos los eventos
+    query = request.GET.get('q')
+    if query:
+        eventos = Evento.objects.filter(nombre__icontains=query)
+    else:
+        eventos = Evento.objects.all()
+
     # Traemos los banners activos ordenados por el campo 'orden'
     banners = BannerPromocional.objects.filter(activo=True).order_by('orden')
 
     context = {
+        'eventos': eventos,
         'banners_activos': banners,
     }
     return render(request, 'eventos/lista.html', context)
