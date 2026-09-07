@@ -268,8 +268,8 @@ from django.shortcuts import render
 from .models import BannerPromocional, Evento  # (mantené los modelos que ya tengas importados)
 
 def index_view(request):
-    # Traemos todos los banners sin filtros para probar
-    banners = BannerPromocional.objects.all()
+    # Traemos los banners activos ordenados por el campo 'orden'
+    banners = BannerPromocional.objects.filter(activo=True).order_by('orden')
 
     context = {
         'banners_activos': banners,
