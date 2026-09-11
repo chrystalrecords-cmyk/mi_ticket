@@ -30,15 +30,16 @@ def detalle_evento(request, evento_id):
         nombre_comprador = request.POST.get('nombre')
         email_comprador = request.POST.get('email')
         cantidad = int(request.POST.get('cantidad', 1))
+        
         if evento.currency_target and evento.currency_target.upper() != 'ARS':
-         precio_unitario = evento.price_in_ars
-    else:
-        precio_unitario = evento.precio
+            precio_unitario = evento.price_in_ars
+        else:
+            precio_unitario = evento.precio
 
-    monto_total = float(precio_unitario) * cantidad
+        monto_total = float(precio_unitario) * cantidad
 
-       # 1. Crear la orden dinamica para el evento seleccionado
-    orden = Orden.objects.create(
+        # 1. Crear la orden dinamica para el evento seleccionado
+        orden = Orden.objects.create(
             evento=evento,
             nombre_comprador=nombre_comprador,
             email_comprador=email_comprador,
@@ -48,9 +49,9 @@ def detalle_evento(request, evento_id):
         )
 
         # 2. Configurar Mercado Pago dinamico segun el evento y su precio
-    sdk = mercadopago.SDK(MERCADOPAGO_ACCESS_TOKEN)
+        sdk = mercadopago.SDK(MERCADOPAGO_ACCESS_TOKEN)
 
-    preference_data = {
+        preference_data = {
             "items": [
                 {
                     "title": f"Entrada(s) para {evento.nombre}",
@@ -64,7 +65,7 @@ def detalle_evento(request, evento_id):
                 "email": email_comprador,
             },
             "external_reference": str(orden.id),
-            "notification_url": "https://mi-ticket.onrender.com/webhook/",
+            "notification_url": "https://mi-ticket.com.ar/webhook/",
             "back_urls": {
                 "success": request.build_absolute_uri(f'/pago-exitoso/{orden.id}/'),
                 "failure": request.build_absolute_uri(f'/pago-fallido/{orden.id}/'),
@@ -73,18 +74,19 @@ def detalle_evento(request, evento_id):
             "auto_return": "approved",
         }
 
-    preference_response = sdk.preference().create(preference_data)
-    preference = preference_response.get("response", {})
+        preference_response = sdk.preference().create(preference_data)
+        preference = preference_response.get("response", {})
 
-    if "id" in preference:
+        if "id" in preference:
             orden.mercadopago_preference_id = preference["id"]
             orden.save()
             
             link_pago_dinamico = preference.get("init_point") or preference.get("sandbox_init_point")
             if link_pago_dinamico:
                 return redirect(link_pago_dinamico)
-    else:
+        else:
             print("ERROR MERCADO PAGO:", preference_response)
+
     return render(request, 'eventos/detalle.html', {'evento': evento})
 
 def ver_ticket(request, orden_id):
