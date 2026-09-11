@@ -2,12 +2,14 @@ import mercadopago
 import qrcode
 import io
 import base64
+from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.db.models import Q, Sum
+from django.utils import timezone
 from .models import Evento, Orden, Producto
 
 MERCADOPAGO_ACCESS_TOKEN = "APP_USR-830626259037279-073016-c6b27d73bd0e4725b02c4628f0770d24-374749734"
@@ -28,10 +30,15 @@ def detalle_evento(request, evento_id):
         nombre_comprador = request.POST.get('nombre')
         email_comprador = request.POST.get('email')
         cantidad = int(request.POST.get('cantidad', 1))
-        monto_total = float(evento.precio) * cantidad
+        if evento.currency_target and evento.currency_target.upper() != 'ARS':
+         precio_unitario = evento.price_in_ars
+    else:
+        precio_unitario = evento.precio
 
-        # 1. Crear la orden dinamica para el evento seleccionado
-        orden = Orden.objects.create(
+    monto_total = float(precio_unitario) * cantidad
+
+       # 1. Crear la orden dinamica para el evento seleccionado
+    orden = Orden.objects.create(
             evento=evento,
             nombre_comprador=nombre_comprador,
             email_comprador=email_comprador,
@@ -41,14 +48,14 @@ def detalle_evento(request, evento_id):
         )
 
         # 2. Configurar Mercado Pago dinamico segun el evento y su precio
-        sdk = mercadopago.SDK(MERCADOPAGO_ACCESS_TOKEN)
-        
-        preference_data = {
+    sdk = mercadopago.SDK(MERCADOPAGO_ACCESS_TOKEN)
+
+    preference_data = {
             "items": [
                 {
                     "title": f"Entrada(s) para {evento.nombre}",
                     "quantity": cantidad,
-                    "unit_price": float(evento.precio),
+                    "unit_price": float(precio_unitario),
                     "currency_id": "ARS",
                 }
             ],
@@ -66,20 +73,18 @@ def detalle_evento(request, evento_id):
             "auto_return": "approved",
         }
 
-        preference_response = sdk.preference().create(preference_data)
-        preference = preference_response.get("response", {})
+    preference_response = sdk.preference().create(preference_data)
+    preference = preference_response.get("response", {})
 
-        if "id" in preference:
+    if "id" in preference:
             orden.mercadopago_preference_id = preference["id"]
             orden.save()
-
-        link_pago_dinamico = preference.get("init_point") or preference.get("sandbox_init_point")
-        
-        if link_pago_dinamico:
-            return redirect(link_pago_dinamico)
-        else:
-            print("ERROR MERCADO PAGO:", preference_response)
             
+            link_pago_dinamico = preference.get("init_point") or preference.get("sandbox_init_point")
+            if link_pago_dinamico:
+                return redirect(link_pago_dinamico)
+    else:
+            print("ERROR MERCADO PAGO:", preference_response)
     return render(request, 'eventos/detalle.html', {'evento': evento})
 
 def ver_ticket(request, orden_id):
@@ -181,26 +186,26 @@ def validar_ticket(request, orden_id):
 def ver_evento_online(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
     
-    # 1. Verificamos si tiene una orden aprobada para este evento
+   # 1. Verificamos si tiene una orden aprobada para este evento
     tiene_entrada = Orden.objects.filter(
         evento=evento,
-        estado_pago='APROBADO'
-    ).filter(
-        models.Q(email_comprador=request.user.email) | models.Q(user=request.user)
+        estado_pago='APROBADO',
+        email_comprador=request.user.email
     ).exists()
-    
+
     # Si no es staff ni compró entrada, acceso denegado
     if not (request.user.is_staff or tiene_entrada):
         return render(request, 'eventos/acceso_denegado.html', {'evento': evento})
-    
+
     # 2. Si el evento es una "Función Programada", validamos el horario
     if getattr(evento, 'modo_acceso', 'ON_DEMAND') == 'FUNCION':
         ahora = timezone.now()
         if evento.fecha and evento.hora:
             fecha_hora_evento = datetime.combine(evento.fecha, evento.hora)
-            fecha_hora_evento = timezone.make_aware(fecha_hora_evento) if timezone.is_naive(fecha_hora_evento) else fecha_hora_evento
+            if timezone.is_naive(fecha_hora_evento):
+                fecha_hora_evento = timezone.make_aware(fecha_hora_evento)
 
-            # Si todavía no llegó la hora de la función, mostramos pantalla de espera
+                            # Si todavía no llegó la hora de la función, mostramos pantalla de espera
             if ahora < fecha_hora_evento:
                 return render(request, 'eventos/funcion_futura.html', {
                     'evento': evento, 
