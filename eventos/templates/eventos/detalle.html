@@ -47,7 +47,7 @@
 
                 <!-- COLUMNA DERECHA: Formulario de Pago -->
                 <div class="col-md-6">
-                    <h3 class="text-primary fw-bold mb-4">${{ evento.precio }}</h3>
+                    <h3 class="text-primary fw-bold mb-4">{{ evento.formatted_visual_price }}</h3>
 
                     <form method="POST">
                         {% csrf_token %}

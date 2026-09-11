@@ -22,6 +22,36 @@ class Evento(models.Model):
         ('FUNCION', 'Función Programada (Fecha y hora fija)'),
     )
     modo_acceso = models.CharField(max_length=20, choices=MODO_ACCESO, default='PRESENCIAL')
+    # Nuevos campos de conversión internacional
+    price_in_ars = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    currency_target = models.CharField(max_length=3, default='ARS')
+    
+    COUNTRY_CURRENCY_CHOICES = [
+        ('ARS', 'Argentina (ARS) - 🇦🇷'),
+        ('EUR', 'España (EUR) - 🇪🇸'),
+        ('EUR', 'Francia (EUR) - 🇫🇷'),
+        ('EUR', 'Italia (EUR) - 🇮🇹'),
+        ('USD', 'Estados Unidos / Ecuador / Panamá (USD) - 🇺🇸/🇪🇨/🇵🇦'),
+        ('CAD', 'Canadá (CAD) - 🇨🇦'),
+        ('MXN', 'México (MXN) - 🇲🇽'),
+        ('PYG', 'Paraguay (PYG) - 🇵🇾'),
+        ('CLP', 'Chile (CLP) - 🇨🇱'),
+        ('UYU', 'Uruguay (UYU) - 🇺🇾'),
+        ('BRL', 'Brasil (BRL) - 🇧🇷'),
+        ('AWG', 'Aruba (AWG) - 🇦🇼'),
+        ('DOP', 'República Dominicana (DOP) - 🇩🇴'),
+        ('TTD', 'Trinidad y Tobago (TTD) - 🇹🇹'),
+        ('BZD', 'Dólar beliceño (BZD) - 🇧🇿'),
+        ('GYD', 'Dólar guyanés (GYD) - 🇬🇾'),
+        ('SRD', 'Dólar surinamés (SRD) - 🇸🇷'),
+    ]
+    country_market = models.CharField(max_length=50, choices=COUNTRY_CURRENCY_CHOICES, default='ARS')
+    exchange_rate = models.DecimalField(max_digits=10, decimal_places=4, default=1.0000)
+
+    @property
+    def formatted_visual_price(self):
+        converted_value = self.price_in_ars * self.exchange_rate
+        return f"{self.currency_target} {converted_value:,.0f}"
     def __str__(self):
         return self.nombre
 
