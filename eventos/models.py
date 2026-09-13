@@ -27,24 +27,26 @@ class Evento(models.Model):
     currency_target = models.CharField(max_length=3, default='ARS')
     
     COUNTRY_CURRENCY_CHOICES = [
-        ('ARS', 'Argentina (ARS) - 🇦🇷'),
-        ('EUR', 'España (EUR) - 🇪🇸'),
-        ('EUR', 'Francia (EUR) - 🇫🇷'),
-        ('EUR', 'Italia (EUR) - 🇮🇹'),
-        ('USD', 'Estados Unidos / Ecuador / Panamá (USD) - 🇺🇸/🇪🇨/🇵🇦'),
-        ('CAD', 'Canadá (CAD) - 🇨🇦'),
-        ('MXN', 'México (MXN) - 🇲🇽'),
-        ('PYG', 'Paraguay (PYG) - 🇵🇾'),
-        ('CLP', 'Chile (CLP) - 🇨🇱'),
-        ('UYU', 'Uruguay (UYU) - 🇺🇾'),
-        ('BRL', 'Brasil (BRL) - 🇧🇷'),
-        ('AWG', 'Aruba (AWG) - 🇦🇼'),
-        ('DOP', 'República Dominicana (DOP) - 🇩🇴'),
-        ('TTD', 'Trinidad y Tobago (TTD) - 🇹🇹'),
-        ('BZD', 'Dólar beliceño (BZD) - 🇧🇿'),
-        ('GYD', 'Dólar guyanés (GYD) - 🇬🇾'),
-        ('SRD', 'Dólar surinamés (SRD) - 🇸🇷'),
-    ]
+    ('ARS', 'Argentina (ARS) - AR'),
+    ('EUR', 'Unión Europea / Euro (EUR) - EU'),
+    ('USD', 'Estados Unidos / Ecuador / Panamá (USD) - US/EC/PA'),
+    ('CAD', 'Canadá (CAD) - CA'),
+    ('MXN', 'México (MXN) - MX'),
+    ('COP', 'Colombia (COP) - CO'),
+    ('PYG', 'Paraguay (PYG) - PY'),
+    ('CLP', 'Chile (CLP) - CL'),
+    ('UYU', 'Uruguay (UYU) - UY'),
+    ('BRL', 'Brasil (BRL) - BR'),
+    ('PEN', 'Perú (PEN) - PE'),
+    ('BOB', 'Bolivia (BOB) - BO'),
+    ('CRC', 'Costa Rica (CRC) - CR'),
+    ('AWG', 'Aruba (AWG) - AW'),
+    ('DOP', 'República Dominicana (DOP) - DO'),
+    ('TTD', 'Trinidad y Tobago (TTD) - TT'),
+    ('BZD', 'Dólar beliceño (BZD) - BZ'),
+    ('GYD', 'Dólar guyanés (GYD) - GY'),
+    ('SRD', 'Dólar surinamés (SRD) - SR'),
+]
     country_market = models.CharField(max_length=50, choices=COUNTRY_CURRENCY_CHOICES, default='ARS')
     exchange_rate = models.DecimalField(max_digits=10, decimal_places=4, default=1.0000)
 
