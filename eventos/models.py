@@ -46,6 +46,10 @@ class Evento(models.Model):
     ('BZD', 'Dólar beliceño (BZD) - BZ'),
     ('GYD', 'Dólar guyanés (GYD) - GY'),
     ('SRD', 'Dólar surinamés (SRD) - SR'),
+    ('GTQ', 'Guatemala (GTQ) - GT'),
+    ('USD', 'El Salvador (USD) - SV'),  # El Salvador usa el USD oficialmente
+    ('HNL', 'Honduras (HNL) - HN'),
+    ('NIO', 'Nicaragua (NIO) - NI'),
 ]
     country_market = models.CharField(max_length=50, choices=COUNTRY_CURRENCY_CHOICES, default='ARS')
     exchange_rate = models.DecimalField(max_digits=10, decimal_places=4, default=1.0000)
