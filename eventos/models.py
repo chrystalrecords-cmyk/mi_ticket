@@ -47,7 +47,6 @@ class Evento(models.Model):
     ('GYD', 'Dólar guyanés (GYD) - GY'),
     ('SRD', 'Dólar surinamés (SRD) - SR'),
     ('GTQ', 'Guatemala (GTQ) - GT'),
-    ('USD', 'El Salvador (USD) - SV'),  # El Salvador usa el USD oficialmente
     ('HNL', 'Honduras (HNL) - HN'),
     ('NIO', 'Nicaragua (NIO) - NI'),
 ]
