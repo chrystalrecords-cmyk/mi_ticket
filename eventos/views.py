@@ -264,8 +264,24 @@ def tienda_exito(request, orden_id=None):
     if not ultima_orden and request.user.is_authenticated:
         ultima_orden = Orden.objects.filter(user=request.user, estado_pago__iexact='APROBADO').order_by('-id').first()
 
-    return render(request, 'eventos/pago_exitoso.html', {'orden': ultima_orden})
+    # Generamos el código QR si la orden existe
+    qr_base64 = None
+    if ultima_orden:
+        data_qr = f"ORDEN-#{ultima_orden.id} - {ultima_orden.nombre_comprador} - {ultima_orden.evento}"
+        qr = qrcode.QRCode(box_size=8, border=2)
+        qr.add_data(data_qr)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+        qr_base64 = base64.b64encode(buffer.getvalue()).decode()
 
+    context = {
+        'orden': ultima_orden,
+        'qr_code': qr_base64
+    }
+    return render(request, 'eventos/pago_exitoso.html', context)
 def tienda_fallo(request, orden_id=None):
     return render(request, 'eventos/pago_fallido.html', {'orden_id': orden_id})
 def ver_online(request, orden_id):

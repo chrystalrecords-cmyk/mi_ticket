@@ -40,6 +40,13 @@
             </div>
         {% endif %}
 
+        <!-- Bloque para mostrar el Código QR en eventos presenciales -->
+    {% if qr_code %}
+    <div class="text-center my-3">
+        <p class="text-muted mb-1">Presentá este código QR en la entrada:</p>
+        <img src="data:image/png;base64,{{ qr_code }}" alt="Código QR de Acceso" class="img-fluid border p-2 bg-white rounded" style="max-width: 180px;">
+    </div>
+    {% endif %}
         <div class="d-grid gap-2 mt-4 border-top pt-3">
             <a href="{% url 'lista_eventos' %}" class="btn btn-outline-secondary fw-bold">Volver al Inicio</a>
         </div>
